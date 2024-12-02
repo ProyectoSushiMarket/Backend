@@ -6,7 +6,7 @@ const rutausuario = Router();
 rutausuario.get("/:id", mostrarusuario)
 rutausuario.get("/", listarusuario)
 rutausuario.post("/", crearusuario)
-rutausuario.put("/:id", modificarusuario)
+rutausuario.put("/", modificarusuario)
 rutausuario.delete("/", eliminarusuario)
 
 export default rutausuario;

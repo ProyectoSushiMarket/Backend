@@ -44,7 +44,7 @@ export const crearusuario = async (req, res) => {
 }
 export const modificarusuario = async (req, res) => {
 
-    const {id} = req.params;
+    const {id} = req.body;
     const {nombre, usuario, rol} = req.body;
     const contrasenasincifrar = req.body.contrasena;
     const contrasena = await bcrypt.hash(contrasenasincifrar, 2);
