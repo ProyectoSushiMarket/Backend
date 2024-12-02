@@ -1,10 +1,12 @@
 import { Router } from "express";
-import { listarusuario, mostrarusuario } from "../controllers/controllers.usuario";
+import { crearusuario, eliminarusuario, listarusuario, modificarusuario, mostrarusuario } from "../controllers/controllers.usuario.js";
 
 const rutausuario = Router();
 
 rutausuario.get("/:id", mostrarusuario)
-rutausuario.get("/usuario", listarusuario)
-
+rutausuario.get("/", listarusuario)
+rutausuario.post("/", crearusuario)
+rutausuario.put("/:id", modificarusuario)
+rutausuario.delete("/", eliminarusuario)
 
 export default rutausuario;
