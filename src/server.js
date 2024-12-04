@@ -10,5 +10,5 @@ const server = express();
 server.use(express.json());
 server.use("/", ruta)
 
-server.set("port", process.env.PORT || 3100)
+server.set("port", process.env.PORT || 4000)
 export default server;

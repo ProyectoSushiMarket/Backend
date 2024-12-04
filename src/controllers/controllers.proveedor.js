@@ -4,12 +4,12 @@ import bcrypt from "bcrypt"
 import { Acceso, Error } from "../message/mensaje.js";
 config();
 
-export const mostrarusuario = async (req, res) => {
+const mostrarproveedor = async (req, res) => {
 
     const { id } = req.params;
 
     try {
-        const [respuesta] = await basededatos.query(`CALL SP_MOSTRAR_USUARIO(?)`, [id]);
+        const [respuesta] = await basededatos.query(`CALL SP_MOSTRAR_PROVEEDOR(?)`, [id]);
         if (respuesta && respuesta.length > 0) {
             res.json(respuesta[0]);
         } else {
@@ -19,15 +19,16 @@ export const mostrarusuario = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-export const listarusuario = async (req, res) => {
+const listarproveedor = async (req, res) => {
+    
     try {
-        const [respuesta] = await basededatos.query(`CALL SP_LISTAR_USUARIO()`);
+        const [respuesta] = await basededatos.query(`CALL SP_LISTAR_PROVEEDOR()`);
         res.json(respuesta[0]);
     } catch (error) {
         res.json({"error": error})
     }
 }
-export const crearusuario = async (req, res) => {
+const crearproveedor = async (req, res) => {
 
     const {nombre, usuario, rol } = req.body;
     const contrasenasincifrar = req.body.contrasena;
@@ -35,14 +36,14 @@ export const crearusuario = async (req, res) => {
     try {
         const hash = await bcrypt.hash(contrasenasincifrar, 2)
         const contrasena = hash;
-        const respuesta = await basededatos.query(`CALL SP_CREAR_USUARIO (?,?,?,?)`, [nombre, usuario, contrasena, rol]);
+        const respuesta = await basededatos.query(`CALL SP_CREAR_PROVEEDOR (?,?,?,?)`, [nombre, usuario, contrasena, rol]);
         res.json({"respuesta":"El usuario ha sido creado"})
     } catch (error) {
         console.log(error);
 
     }
 }
-export const modificarusuario = async (req, res) => {
+const modificarproveedor = async (req, res) => {
 
     const {id} = req.body;
     const {nombre, usuario, rol} = req.body;
@@ -50,7 +51,7 @@ export const modificarusuario = async (req, res) => {
     const contrasena = await bcrypt.hash(contrasenasincifrar, 2);
 
     try {
-        const respuesta = await basededatos.query(`CALL SP_MODIFICAR_USUARIO (?,?,?,?,?)`,[id,nombre, usuario, contrasena, rol]);
+        const respuesta = await basededatos.query(`CALL SP_MODIFICAR_PROVEEDOR (?,?,?,?,?)`,[id,nombre, usuario, contrasena, rol]);
 
         const resultado = respuesta[0];
 
@@ -64,14 +65,17 @@ export const modificarusuario = async (req, res) => {
         Error(req, res, 400, error)
     }
 }
-export const eliminarusuario = async (req, res) => {
+const eliminarproveedor = async (req, res) => {
 
     const {id} = req.body;
 
     try {
-        const respuesta = await basededatos.query(`CALL SP_ELIMINAR_USUARIO (?)`, [id])
+        const respuesta = await basededatos.query(`CALL SP_ELIMINAR_PROVEEDOR (?)`, [id])
         res.json({"respuesta": "Usuario Eliminado"})
     } catch (error) {
         res.json({"respuesta": "El usuario no se pudo eliminar"})
     }
+}
+export {
+    mostrarproveedor, listarproveedor, crearproveedor, modificarproveedor, eliminarproveedor
 }
