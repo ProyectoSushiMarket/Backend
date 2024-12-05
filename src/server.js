@@ -16,7 +16,7 @@ server.use(express.urlencoded({ extended : true }));
 server.use(cors());
 server.use(morgan("dev"));
 server.set("view engine", "ejs");
-server.set("port", process.env.PORT || 4000)
+server.set("port", process.env.PORT || 4100)
 
 
 //Rutas
