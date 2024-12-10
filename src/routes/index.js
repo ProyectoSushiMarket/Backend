@@ -6,6 +6,7 @@ import rutausuario from "./routes.usuarios.js";
 
 const ruta = Router();
 
+
 ruta.use("/usuario", rutausuario);
 ruta.use("/producto", rutaproducto);
 ruta.use("/pedido", rutapedido);
