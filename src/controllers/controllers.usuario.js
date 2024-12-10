@@ -32,7 +32,7 @@ const crearusuario = async (req, res) => {
 
     const {nombre, usuario, rol } = req.body;
     const contrasenasincifrar = req.body.contrasena;
-
+    
     try {
         const hash = await bcrypt.hash(contrasenasincifrar, 2)
         const contrasena = hash;
