@@ -13,7 +13,7 @@ const loginusuario = async(req, res) => {
 
     try {
         const rol = await basededatos.query(`CALL SP_VERIFICAR_ROLES(?)`, [usuario]);
-        const respuesta = await basededatos.query(`CALL SP_BUSCAR_PROVEEDOR(?)`, [usuario]);
+        const respuesta = await basededatos.query(`CALL SP_BUSCAR_USUARIO(?)`, [usuario]);
         if(respuesta[0][0] == 0) {
             Error(req, res, 404, "El usuario no existe");
             return;
