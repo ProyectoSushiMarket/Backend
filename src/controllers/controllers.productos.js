@@ -30,10 +30,10 @@ const listarproducto = async (req, res) => {
 };
 const crearproducto = async (req, res) => {
     
-    const {nombre, cantidad, unidadmedida, caracteristicas, imagen} = req.body;
+    const {nombre, imagen} = req.body;
 
     try {
-        const [respuesta] = await basededatos.query(`CALL SP_CREAR_PRODUCTO(?,?,?,?,?)`, [nombre, cantidad, unidadmedida, caracteristicas, imagen])
+        const [respuesta] = await basededatos.query(`CALL SP_CREAR_PRODUCTO(?,?)`, [nombre, imagen])
         res.json({"respuesta": "El producto ha sido creado"})
     } catch (error) {
         res.json({"error": "El producto no se pudo crear"})
@@ -41,10 +41,11 @@ const crearproducto = async (req, res) => {
 };
 const modificarproducto = async (req, res) => {
 
-    const {id, nombre, cantidad, unidadmedida, caracteristicas, imagen} = req.body;
+    const {id} = req.params
+    const {nombre, imagen} = req.body;
 
     try {
-        const [respuesta] = await basededatos.query(`CALL SP_MODIFICAR_PRODUCTO (?,?,?,?,?,?)`,[id,nombre, cantidad, unidadmedida, caracteristicas, imagen]);
+        const [respuesta] = await basededatos.query(`CALL SP_MODIFICAR_PRODUCTO (?,?,?)`,[id,nombre, imagen]);
 
         const resultado = respuesta[0];
 
@@ -60,7 +61,7 @@ const modificarproducto = async (req, res) => {
 };
 const eliminarproducto = async (req, res) => {
 
-    const {id} = req.body;
+    const {id} = req.params;
 
     try {
         const [respuesta] = await basededatos.query(`CALL SP_ELIMINAR_PRODUCTO(?)`, [id])

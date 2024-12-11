@@ -7,6 +7,6 @@ rutapedido.get("/", listarpedido)
 rutapedido.get("/contadorpedido", contadorpedido)
 rutapedido.post("/", crearpedido)
 rutapedido.put("/", actualizarpedido)
-rutapedido.delete("/", eliminarpedido)
+rutapedido.delete("/:id", eliminarpedido)
 
 export default rutapedido;

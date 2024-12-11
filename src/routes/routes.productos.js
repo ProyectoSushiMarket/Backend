@@ -6,7 +6,7 @@ const rutaproducto = Router();
 rutaproducto.get("/:id", mostrarproducto)
 rutaproducto.get("/", listarproducto)
 rutaproducto.post("/", crearproducto)
-rutaproducto.put("/", modificarproducto)
-rutaproducto.delete("/", eliminarproducto)
+rutaproducto.put("/:id", modificarproducto)
+rutaproducto.delete("/:id", eliminarproducto)
 
 export default rutaproducto;
