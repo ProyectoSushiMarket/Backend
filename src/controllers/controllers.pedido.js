@@ -58,5 +58,4 @@ const eliminarpedido = async (req, res) => {
 }
 export {
     listarpedido, contadorpedido, crearpedido, actualizarpedido, eliminarpedido
-    
 }
