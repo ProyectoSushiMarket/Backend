@@ -46,12 +46,12 @@ const crearusuario = async (req, res) => {
 const modificarusuario = async (req, res) => {
 
     const {id} = req.body;
-    const {nombre, usuario, rol} = req.body;
+    const {nombre, usuario} = req.body;
     const contrasenasincifrar = req.body.contrasena;
     const contrasena = await bcrypt.hash(contrasenasincifrar, 2);
 
     try {
-        const respuesta = await basededatos.query(`CALL SP_MODIFICAR_USUARIO (?,?,?,?,?)`,[id,nombre, usuario, contrasena, rol]);
+        const respuesta = await basededatos.query(`CALL SP_MODIFICAR_USUARIO (?,?,?,?)`,[id,nombre, usuario, contrasena]);
 
         const resultado = respuesta[0];
 
