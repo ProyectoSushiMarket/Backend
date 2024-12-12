@@ -46,10 +46,10 @@ const actualizarpedido = async (req, res) => {
 };
 const eliminarpedido = async (req, res) => {
 
-    const {id} = req.params;
+    const {id_pedido} = req.params;
 
     try {
-        const respuesta = await basededatos.query(`CALL SP_ELIMINAR_PEDIDO(?)`, [id])
+        const respuesta = await basededatos.query(`CALL SP_ELIMINAR_PEDIDO(?)`, [id_pedido])
         res.json({"respuesta": "Pedido Eliminado"})
     } catch (error) {
         res.json({"Error": "El pedido no se pudo eliminar"})
