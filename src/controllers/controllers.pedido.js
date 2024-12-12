@@ -79,6 +79,38 @@ const eliminarpedido = async (req, res) => {
     }
 
 }
+
+const obtenerPedidosPorUsuario = async (req, res) => {
+    const { id_usuario, rol } = req.usuario; // Asegúrate de que este middleware proporciona el ID y el rol del usuario
+
+    if (!id_usuario || !rol) {
+        return res.status(400).json({ message: 'Datos del usuario o rol faltan en el token' });
+    }
+
+    try {
+        // Llama al procedimiento almacenado con los parámetros correctos
+        const [results] = await basededatos.query('CALL SP_OBTENER_PEDIDOS_USUARIOS(?, ?)', [rol, id_usuario]);
+
+        if (results && results.length > 0) {
+            console.log('Resultados obtenidos:', results);
+            return res.json({
+                usuario: id_usuario,
+                rol,
+                pedidos: results // Devuelve los pedidos obtenidos
+            });
+        } else {
+            console.log('No se encontraron pedidos para este usuario');
+            return res.status(404).json({ message: 'No se encontraron pedidos para este usuario' });
+        }
+    } catch (error) {
+        console.error('Error al ejecutar la consulta:', error);
+        return res.status(500).json({ message: 'Hubo un error al obtener los pedidos', error: error.message });
+    }
+};
+
+
+
+
 export {
-    listarpedido, contadorpedido, crearpedido, actualizarpedido, eliminarpedido
+    listarpedido, contadorpedido, crearpedido, actualizarpedido, eliminarpedido, obtenerPedidosPorUsuario
 }

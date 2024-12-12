@@ -12,4 +12,5 @@ rutalogin.post("/loginusuario", loginusuario);
 rutalogin.post("/oauth", verifytoken, validartoken);
 rutalogin.get("/datosusuario", verifytoken, obtenerDatosUsuario);
 
+
 export default rutalogin;
