@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-12-2024 a las 19:23:23
+-- Tiempo de generación: 12-12-2024 a las 22:09:06
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -155,7 +155,7 @@ CREATE TABLE `pedidos` (
   `id_pedido` int(11) NOT NULL,
   `id_usuario` int(11) DEFAULT NULL,
   `id_producto` int(11) DEFAULT NULL,
-  `fecha_pedido` datetime DEFAULT NULL,
+  `fecha_pedido` datetime DEFAULT current_timestamp(),
   `cantidad` int(11) NOT NULL,
   `unidad_de_medida` varchar(50) DEFAULT NULL,
   `caracteristicas` text DEFAULT NULL
@@ -171,7 +171,14 @@ INSERT INTO `pedidos` (`id_pedido`, `id_usuario`, `id_producto`, `fecha_pedido`,
 (35, 17, 31, '2024-12-12 18:03:00', 2, 'UND', 'Maduro'),
 (38, 18, 31, '2024-12-12 23:09:00', 2, 'KL', 'Pinton'),
 (39, 17, 31, '2024-12-12 23:21:48', 2, 'KL', 'Pinton'),
-(40, 17, 31, '2024-12-12 23:22:05', 1, 'KL', 'Pinton');
+(40, 17, 31, '2024-12-12 23:22:05', 1, 'KL', 'Pinton'),
+(42, 18, 31, '2024-12-13 01:35:46', 2, 'No aplica', 'Maduro'),
+(43, 18, 31, '2024-12-13 01:36:45', 6, 'No aplica', 'No aplica'),
+(44, 18, 31, '2024-12-13 01:40:55', 2, 'UND', 'No aplica'),
+(45, 18, 31, '2024-12-13 01:48:09', 1, 'No aplica', 'Pinton'),
+(47, 18, 31, '2024-12-13 01:52:25', 2, 'UND', 'No aplica'),
+(48, 18, 31, '2024-12-12 20:53:58', 2, 'UND', 'Maduro'),
+(49, 18, 31, '2024-12-12 21:07:14', 2, 'No aplica', 'Maduro');
 
 -- --------------------------------------------------------
 
@@ -261,7 +268,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`

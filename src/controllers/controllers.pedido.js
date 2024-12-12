@@ -25,29 +25,25 @@ const crearpedido = async (req, res) => {
     const { id_usuario, nombre_producto, fecha_pedido, cantidad, unidad_de_medida, caracteristicas } = req.body;
 
     try {
-        // Verificar que el nombre del producto no sea nulo o indefinido
+        
         if (!nombre_producto || nombre_producto === 'undefined') {
             return res.status(400).json({ "error": "Nombre de producto no válido" });
         }
 
-        // Buscar el id_producto en la base de datos
         const [producto] = await basededatos.query('SELECT id_producto FROM productos WHERE nombre = ?', [nombre_producto]);
 
         if (producto.length === 0) {
             return res.status(404).json({ "error": "El producto no existe en la base de datos" });
         }
 
-        // Obtener el id_producto
         const id_producto = producto[0].id_producto;
 
-        // Convertir la fecha de pedido al formato adecuado (YYYY-MM-DD HH:MM:SS)
         const fechaFormateada = new Date(fecha_pedido).toISOString().slice(0, 19).replace('T', ' ');
 
-        // Llamar al procedimiento almacenado con la fecha formateada
         const [respuesta] = await basededatos.query('CALL SP_CREAR_PEDIDO(?, ?, ?, ?, ?, ?)', [
             id_usuario, 
             id_producto, 
-            fechaFormateada,  // Asegúrate de que la fecha está en formato DATETIME
+            fechaFormateada,  
             cantidad, 
             unidad_de_medida, 
             caracteristicas
@@ -59,8 +55,6 @@ const crearpedido = async (req, res) => {
         res.status(500).json({ "error": "El pedido no se pudo crear" });
     }
 };
-
-
 
 const actualizarpedido = async (req, res) => {
 
