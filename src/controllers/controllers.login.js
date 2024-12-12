@@ -6,6 +6,7 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 config();
 
+
 const loginusuario = async (req, res) => {
     const { usuario, contrasena } = req.body;
     console.log(usuario + contrasena);
@@ -73,7 +74,7 @@ const obtenerDatosUsuario = async (req, res) => {
         
         const usuario = respuesta[0]; 
         
-        // Retornamos los datos del usuario
+       
         res.json({
             id_usuario: usuario.id_usuario,
             nombre: usuario.nombre,
