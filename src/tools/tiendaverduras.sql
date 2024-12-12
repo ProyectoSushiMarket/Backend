@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-12-2024 a las 22:09:06
+-- Tiempo de generación: 13-12-2024 a las 00:35:01
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -137,6 +137,40 @@ SELECT id_usuario, usuario, contrasena, rol FROM usuarios WHERE id_usuario = _ID
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_OBTENER_PEDIDOS_USUARIOS` (IN `p_rol` VARCHAR(20), IN `p_id_usuario` INT)   BEGIN
+    -- Si el usuario es Cliente, solo devuelve sus propios pedidos
+    IF p_rol = 'Cliente' THEN
+        SELECT 
+            p.id_pedido, 
+            p.id_usuario, 
+            p.id_producto, 
+            p.fecha_pedido, 
+            p.cantidad, 
+            p.unidad_de_medida, 
+            p.caracteristicas
+        FROM 
+            pedidos p
+        WHERE 
+            p.id_usuario = p_id_usuario;  -- Filtrar por el ID del usuario
+
+    -- Si el usuario es Proveedor, devuelve todos los pedidos
+    ELSEIF p_rol = 'Proveedor' THEN
+        SELECT 
+            p.id_pedido, 
+            p.id_usuario, 
+            p.id_producto, 
+            p.fecha_pedido, 
+            p.cantidad, 
+            p.unidad_de_medida, 
+            p.caracteristicas
+        FROM 
+            pedidos p;
+    ELSE
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Rol no válido. Use Cliente o Proveedor.';
+    END IF;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_VERIFICAR_ROLES` (IN `_USUARIO` VARCHAR(100))   BEGIN
 
 SELECT id_usuario, usuario, rol FROM usuarios WHERE usuario = _USUARIO;
@@ -178,7 +212,11 @@ INSERT INTO `pedidos` (`id_pedido`, `id_usuario`, `id_producto`, `fecha_pedido`,
 (45, 18, 31, '2024-12-13 01:48:09', 1, 'No aplica', 'Pinton'),
 (47, 18, 31, '2024-12-13 01:52:25', 2, 'UND', 'No aplica'),
 (48, 18, 31, '2024-12-12 20:53:58', 2, 'UND', 'Maduro'),
-(49, 18, 31, '2024-12-12 21:07:14', 2, 'No aplica', 'Maduro');
+(49, 18, 31, '2024-12-12 21:07:14', 2, 'No aplica', 'Maduro'),
+(50, 17, 31, '2024-12-12 22:06:10', 1, 'UND', 'No aplica'),
+(51, 17, 31, '2024-12-12 22:08:53', 1, 'UND', 'Maduro'),
+(52, 17, 31, '2024-12-12 22:25:06', 1, 'UND', 'No aplica'),
+(53, 17, 31, '2024-12-12 23:04:33', 2, 'UND', 'Maduro');
 
 -- --------------------------------------------------------
 
@@ -268,7 +306,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
