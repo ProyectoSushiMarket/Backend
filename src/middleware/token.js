@@ -11,9 +11,8 @@ config();
     
     try {
         const decoded = await jwt.verify(token, process.env.TOKEN_PRIVATEKEY);
-        req.usuario = decoded;  // Asigna el objeto decodificado a req.usuario
+        req.usuario = decoded;
         
-        // Verifica que el valor del usuario esté correcto
         console.log(req.usuario);  
 
         next();
