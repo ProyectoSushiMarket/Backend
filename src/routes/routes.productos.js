@@ -7,6 +7,6 @@ rutaproducto.get("/:id", mostrarproducto)
 rutaproducto.get("/", listarproducto)
 rutaproducto.post("/", crearproducto)
 rutaproducto.put("/:id", modificarproducto)
-rutaproducto.delete("/:id", eliminarproducto)
+rutaproducto.delete("/:nombre", eliminarproducto)
 
 export default rutaproducto;

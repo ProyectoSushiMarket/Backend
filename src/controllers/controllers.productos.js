@@ -61,10 +61,10 @@ const modificarproducto = async (req, res) => {
 };
 const eliminarproducto = async (req, res) => {
 
-    const {id} = req.params;
+    const {nombre} = req.params;
 
     try {
-        const [respuesta] = await basededatos.query(`CALL SP_ELIMINAR_PRODUCTO(?)`, [id])
+        const [respuesta] = await basededatos.query(`CALL SP_ELIMINAR_PRODUCTO(?)`, [nombre])
         res.json({"respuesta": "El producto ha sido eliminado"})
     } catch (error) {
         res.json({"respuesta": "El Producto no se pudo eliminar"})
