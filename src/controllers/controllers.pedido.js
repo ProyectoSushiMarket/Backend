@@ -2,6 +2,7 @@ import { basededatos } from "../config/mysql.database.js";
 import { config } from "dotenv";
 config();
 
+
 const listarpedido = async (req, res) => {
 
     try {
@@ -52,7 +53,7 @@ const crearpedido = async (req, res) => {
             id_producto,      
             fechaFormateada,  
             cantidad,         
-            unidad_de_medida,  
+            unidad_de_medida,
             caracteristicas    
         ]);
 

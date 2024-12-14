@@ -30,49 +30,47 @@ const listarproducto = async (req, res) => {
 };
 const crearproducto = async (req, res) => {
     
-    const {nombre, unidad_de_medida, imagen} = req.body;
+    const {nombre, unidad_de_medida, precio, imagen} = req.body;
 
     try {
-        const [respuesta] = await basededatos.query(`CALL SP_CREAR_PRODUCTO(?,?,?)`, [nombre, unidad_de_medida, imagen])
+        const [respuesta] = await basededatos.query(`CALL SP_CREAR_PRODUCTO(?,?,?,?)`, [nombre, unidad_de_medida, precio, imagen])
         res.json({"respuesta": "El producto ha sido creado"})
     } catch (error) {
         res.json({"error": "El producto no se pudo crear"})
     }
 };
 const modificarproducto = async (req, res) => {
-    const { nombre } = req.params;  // Obtenemos el nombre del producto que se va a modificar
-    const { nombre_nuevo, unidad_de_medida, imagen } = req.body;  // Datos nuevos para la modificación
+    const { nombre } = req.params;  
+    const { nombre_nuevo, unidad_de_medida, precio, imagen } = req.body;  
 
     try {
-        // Ejecutamos el procedimiento almacenado con los parámetros proporcionados
         const [respuesta] = await basededatos.query(
-            `CALL SP_MODIFICAR_PRODUCTO(?, ?, ?, ?)`, 
-            [nombre, nombre_nuevo, unidad_de_medida, imagen]
+            `CALL SP_MODIFICAR_PRODUCTO(?, ?, ?, ?, ?)`, 
+            [nombre, nombre_nuevo, unidad_de_medida, precio, imagen]
         );
 
-        // Verificamos que 'respuesta' contenga 'affectedRows'
-        if (respuesta && respuesta.affectedRows !== undefined) {
-            const resultado = respuesta; // 'respuesta' directamente es el objeto que contiene 'affectedRows'
+        // Imprime la respuesta para depuración
+        console.log("Respuesta del procedimiento almacenado:", respuesta);
 
-            // Comprobamos si la modificación fue exitosa
-            if (resultado.affectedRows === 1) {
-                // Si el producto fue modificado correctamente
+        if (respuesta && respuesta[0]) {
+            const resultado = respuesta[0][0]; // Accede al primer conjunto de resultados
+            console.log("Resultado procesado:", resultado);
+
+            if (resultado && resultado.affectedRows > 0) {
                 Acceso(req, res, 200, "Producto modificado con éxito");
             } else {
-                // Si no se pudo modificar el producto
                 Error(req, res, 400, "No se pudo modificar el producto, verifique los datos.");
             }
         } else {
-            // Si la respuesta no tiene 'affectedRows' o es indefinida
             Error(req, res, 500, "Error en la respuesta de la base de datos.");
         }
-
     } catch (error) {
-        // Capturamos cualquier error y lo respondemos
-        console.error(error);  // Log para depuración
+        console.error("Error al modificar el producto:", error);
         Error(req, res, 500, "Hubo un error al modificar el producto.");
     }
 };
+
+
 
 
 
