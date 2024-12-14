@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-12-2024 a las 01:23:30
+-- Tiempo de generación: 14-12-2024 a las 03:05:15
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -146,9 +146,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_OBTENER_PEDIDOS_USUARIOS` (IN `p
     IF p_rol = 'Cliente' THEN
         SELECT 
             p.id_pedido,
-            u.nombre AS nombre_usuario,  -- Mostramos el nombre real del usuario
+            u.nombre AS nombre_usuario,  
             p.responsable,
-            p.id_producto, 
+            pr.nombre AS nombre_producto,  
             p.fecha_pedido, 
             p.cantidad, 
             p.unidad_de_medida, 
@@ -157,16 +157,18 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_OBTENER_PEDIDOS_USUARIOS` (IN `p
             pedidos p
         JOIN 
             usuarios u ON p.id_usuario = u.id_usuario
+        JOIN 
+            productos pr ON p.id_producto = pr.id_producto  
         WHERE 
-            u.id_usuario = p_usuario AND u.rol = p_rol;  -- Usamos id_usuario para filtrar el cliente
+            u.id_usuario = p_usuario AND u.rol = p_rol;  
 
     -- Si el usuario es Proveedor
     ELSEIF p_rol = 'Proveedor' THEN
         SELECT 
             p.id_pedido,
-            u.nombre AS nombre_usuario,  -- Mostramos el nombre real del usuario
+            u.nombre AS nombre_usuario,  
             p.responsable,
-            p.id_producto, 
+            pr.nombre AS nombre_producto,  
             p.fecha_pedido, 
             p.cantidad, 
             p.unidad_de_medida, 
@@ -174,7 +176,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_OBTENER_PEDIDOS_USUARIOS` (IN `p
         FROM 
             pedidos p
         JOIN 
-            usuarios u ON p.id_usuario = u.id_usuario;
+            usuarios u ON p.id_usuario = u.id_usuario
+        JOIN 
+            productos pr ON p.id_producto = pr.id_producto;  
 
     ELSE
         SIGNAL SQLSTATE '45000'
@@ -217,7 +221,10 @@ INSERT INTO `pedidos` (`id_pedido`, `id_usuario`, `responsable`, `id_producto`, 
 (65, 17, 'Jhoan Gallego', 43, '2024-12-13 23:03:55', 4, 'GR', 'No aplica'),
 (66, 7, 'Jhoan Gallego', 43, '2024-12-13 23:31:49', 4, 'GR', 'Maduro'),
 (67, 21, 'VIva Palmas', 43, '2024-12-13 23:41:19', 5, 'GR', 'No aplica'),
-(68, 17, 'Jhoan Monsalve', 49, '2024-12-13 23:45:46', 4, 'GR', 'No aplica');
+(68, 17, 'Jhoan Monsalve', 49, '2024-12-13 23:45:46', 4, 'GR', 'No aplica'),
+(69, 17, 'Jhoan Gallego', 43, '2024-12-14 01:27:02', 5, 'GR', 'No aplica'),
+(70, 21, 'Jhoan', 43, '2024-12-04 13:56:35', 2, 'GR', 'maduro'),
+(71, 12, 'jaiber', 43, '2024-12-10 18:02:38', 20, 'KL', 'Maduro');
 
 -- --------------------------------------------------------
 
@@ -272,7 +279,7 @@ INSERT INTO `usuarios` (`id_usuario`, `usuario`, `nombre`, `contrasena`, `rol`) 
 (17, 'JhoanCliente', 'Jhoan Monsalve', '$2b$04$vqXHHmc0a12TMZ3aMUYcB.iUnAphb2SlVgMpxIpDV5ogJ4qwlmJVm', 'Cliente'),
 (18, 'JhoanProveedor', 'Jhoan Monsalve Gallego', '$2b$04$j.cUipyCW7qieYJuiGOhYezHq6Aj4R87CpQg2jq4UpKX8RDPz3Ob.', 'Proveedor'),
 (20, 'JhoanUsuario', 'Jhoan', '$2b$04$if5qfq0Mjeh2q1GrFpAqq.5SVoMI6rLlejJej.yVqgVfn3B2xl5Fi', 'Cliente'),
-(21, 'Nose2.0', 'Jhoan Monsalve', '$2b$04$DnGpwyNI9hA7hluUFtGTs.Zz4AHhg92xAIbQqqbruWSupBRMrtUzi', 'Cliente');
+(21, 'Nose2.0', 'No se ', '$2b$04$Tk4HMinUXzonrzyS9qPR2OXfSeAg6bZKQ06xvnzIs4T.vQqAMkcB2', 'Cliente');
 
 --
 -- Índices para tablas volcadas
@@ -306,7 +313,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
