@@ -30,35 +30,52 @@ const listarproducto = async (req, res) => {
 };
 const crearproducto = async (req, res) => {
     
-    const {nombre, imagen} = req.body;
+    const {nombre, unidad_de_medida, imagen} = req.body;
 
     try {
-        const [respuesta] = await basededatos.query(`CALL SP_CREAR_PRODUCTO(?,?)`, [nombre, imagen])
+        const [respuesta] = await basededatos.query(`CALL SP_CREAR_PRODUCTO(?,?,?)`, [nombre, unidad_de_medida, imagen])
         res.json({"respuesta": "El producto ha sido creado"})
     } catch (error) {
         res.json({"error": "El producto no se pudo crear"})
     }
 };
 const modificarproducto = async (req, res) => {
-
-    const {id} = req.params
-    const {nombre, imagen} = req.body;
+    const { nombre } = req.params;  // Obtenemos el nombre del producto que se va a modificar
+    const { nombre_nuevo, unidad_de_medida, imagen } = req.body;  // Datos nuevos para la modificación
 
     try {
-        const [respuesta] = await basededatos.query(`CALL SP_MODIFICAR_PRODUCTO (?,?,?)`,[id,nombre, imagen]);
+        // Ejecutamos el procedimiento almacenado con los parámetros proporcionados
+        const [respuesta] = await basededatos.query(
+            `CALL SP_MODIFICAR_PRODUCTO(?, ?, ?, ?)`, 
+            [nombre, nombre_nuevo, unidad_de_medida, imagen]
+        );
 
-        const resultado = respuesta[0];
+        // Verificamos que 'respuesta' contenga 'affectedRows'
+        if (respuesta && respuesta.affectedRows !== undefined) {
+            const resultado = respuesta; // 'respuesta' directamente es el objeto que contiene 'affectedRows'
 
-        if (resultado.affectedRows == 1) {
-            Acceso(req, res, 201, "Producto Modificado");
+            // Comprobamos si la modificación fue exitosa
+            if (resultado.affectedRows === 1) {
+                // Si el producto fue modificado correctamente
+                Acceso(req, res, 200, "Producto modificado con éxito");
+            } else {
+                // Si no se pudo modificar el producto
+                Error(req, res, 400, "No se pudo modificar el producto, verifique los datos.");
+            }
         } else {
-            Error(req, res, 400, "No se pudo modificar el producto");
+            // Si la respuesta no tiene 'affectedRows' o es indefinida
+            Error(req, res, 500, "Error en la respuesta de la base de datos.");
         }
 
     } catch (error) {
-        Error(req, res, 400, error)
+        // Capturamos cualquier error y lo respondemos
+        console.error(error);  // Log para depuración
+        Error(req, res, 500, "Hubo un error al modificar el producto.");
     }
 };
+
+
+
 const eliminarproducto = async (req, res) => {
 
     const {nombre} = req.params;

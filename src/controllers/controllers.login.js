@@ -65,7 +65,7 @@ const obtenerDatosUsuario = async (req, res) => {
 
     try {
         
-        const [respuesta] = await basededatos.query(`SELECT id_usuario, nombre FROM usuarios WHERE id_usuario = ?;`, [usuarioId]);
+        const [respuesta] = await basededatos.query(`SELECT id_usuario, nombre, rol FROM usuarios WHERE id_usuario = ?;`, [usuarioId]);
         
         if (respuesta.length === 0) {
             return res.status(404).json({ error: "Usuario no encontrado" });
@@ -78,6 +78,7 @@ const obtenerDatosUsuario = async (req, res) => {
         res.json({
             id_usuario: usuario.id_usuario,
             nombre: usuario.nombre,
+            rol: usuario.rol
         });
     } catch (error) {
         console.error("Error al obtener los datos del usuario:", error);
