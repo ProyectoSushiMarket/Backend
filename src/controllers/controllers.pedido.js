@@ -66,19 +66,6 @@ const crearpedido = async (req, res) => {
     }
 };
 
-
-
-const actualizarpedido = async (req, res) => {
-
-    const {idpedido, estado} = req.body;
-
-    try {
-        const [respuesta] = await basededatos.query(`CALL SP_ACTUALIZAR_PEDIDO(?,?)`, [idpedido, estado]);
-        res.json({"respuesta": "Pedido actualizado"})
-    } catch (error) {
-        res.json({"respuesta": "El pedido no se pudo actualizar"})
-    }
-};
 const eliminarpedido = async (req, res) => {
 
     const {id_pedido} = req.params;
@@ -147,5 +134,5 @@ const obtenerPedidosPorUsuario = async (req, res) => {
 
 
 export {
-    listarpedido, contadorpedido, crearpedido, actualizarpedido, eliminarpedido, obtenerPedidosPorUsuario
+    listarpedido, contadorpedido, crearpedido, eliminarpedido, obtenerPedidosPorUsuario
 }

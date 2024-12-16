@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { actualizarpedido, contadorpedido, crearpedido, eliminarpedido, listarpedido, obtenerPedidosPorUsuario} from "../controllers/controllers.pedido.js";
+import { contadorpedido, crearpedido, eliminarpedido, listarpedido, obtenerPedidosPorUsuario} from "../controllers/controllers.pedido.js";
 import { verifytoken } from "../middleware/token.js";
 
 
@@ -9,7 +9,6 @@ rutapedido.get("/", listarpedido)
 rutapedido.get("/contadorpedido", contadorpedido)
 rutapedido.get("/pedidousuario", verifytoken, obtenerPedidosPorUsuario)
 rutapedido.post("/", crearpedido)
-rutapedido.put("/", actualizarpedido)
 rutapedido.delete("/:id_pedido", eliminarpedido)
 
 
