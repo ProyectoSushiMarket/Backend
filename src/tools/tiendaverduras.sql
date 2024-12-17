@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-12-2024 a las 18:17:34
+-- Tiempo de generación: 17-12-2024 a las 16:09:56
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -222,7 +222,7 @@ CREATE TABLE `pedidos` (
 INSERT INTO `pedidos` (`id_pedido`, `id_usuario`, `responsable`, `id_producto`, `fecha_pedido`, `cantidad`, `unidad_de_medida`, `caracteristicas`) VALUES
 (93, 20, 'Prueba', 49, '2024-12-16 15:46:25', 9, 'KL', 'No aplica'),
 (94, 12, 'Diciembre 2.0', 60, '2024-12-16 15:46:57', 8, 'GR', 'No aplica'),
-(96, 20, 'Jhoan Gallego', 43, '2024-12-16 16:31:56', 8, 'GR', 'No aplica');
+(101, NULL, 'Julio', 43, '2024-12-17 15:09:08', 3, 'GR', 'No aplica');
 
 -- --------------------------------------------------------
 
@@ -313,19 +313,19 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id_producto` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id_producto` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_usuario` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- Restricciones para tablas volcadas
