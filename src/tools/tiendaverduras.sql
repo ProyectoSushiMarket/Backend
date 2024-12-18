@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-12-2024 a las 16:18:26
+-- Tiempo de generación: 18-12-2024 a las 17:54:15
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -222,7 +222,11 @@ CREATE TABLE `pedidos` (
 INSERT INTO `pedidos` (`id_pedido`, `id_usuario`, `responsable`, `id_producto`, `fecha_pedido`, `cantidad`, `unidad_de_medida`, `caracteristicas`) VALUES
 (93, 20, 'Prueba', 49, '2024-12-16 15:46:25', 9, 'KL', 'No aplica'),
 (94, 12, 'Diciembre 2.0', 60, '2024-12-16 15:46:57', 8, 'GR', 'No aplica'),
-(101, NULL, 'Julio', 43, '2024-12-17 15:09:08', 3, 'GR', 'No aplica');
+(101, NULL, 'Julio', 43, '2024-12-17 15:09:08', 3, 'GR', 'No aplica'),
+(105, 20, 'Jhoan Monsalve', 49, '2024-12-18 16:50:15', 1, 'KL', 'No aplica'),
+(106, 20, 'Jhoan Monsalve', 49, '2024-12-18 16:51:42', 6, 'KL', 'Maduro'),
+(107, 20, 'Jhoan Monsalve', 55, '2024-12-18 16:51:51', 5, 'GR', 'No aplica'),
+(108, 20, 'Jhoan Monsalve', 59, '2024-12-18 16:52:00', 7, 'KL', 'No aplica');
 
 -- --------------------------------------------------------
 
@@ -315,7 +319,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
