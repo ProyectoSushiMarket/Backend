@@ -23,48 +23,66 @@ const contadorpedido = async (req, res) => {
 };
 
 const crearpedido = async (req, res) => {
-    
-    const { id_usuario, responsable, nombre_producto, fecha_pedido, cantidad, unidad_de_medida, caracteristicas } = req.body;
+    const pedidos = req.body;  // Esperamos un array de pedidos en el body
 
     try {
+        // Inicializamos una variable para almacenar los errores
+        const errores = [];
         
-        
-        if (!nombre_producto || nombre_producto === undefined) {
-            return res.status(400).json({ "error": "Nombre de producto no válido" });
+        // Iteramos sobre el array de pedidos
+        for (const pedido of pedidos) {
+            const { id_usuario, responsable, nombre_producto, fecha_pedido, cantidad, unidad_de_medida, caracteristicas } = pedido;
+
+            // Validar datos requeridos
+            if (!nombre_producto || nombre_producto === undefined) {
+                errores.push(`El pedido de ${responsable} tiene un nombre de producto no válido.`);
+                continue; // Saltamos este pedido si hay error en el nombre del producto
+            }
+
+            // Buscar el producto en la base de datos
+            const [producto] = await basededatos.query('SELECT id_producto FROM productos WHERE nombre = ?', [nombre_producto]);
+
+            if (producto.length === 0) {
+                errores.push(`El producto '${nombre_producto}' no existe en la base de datos para el pedido de ${responsable}.`);
+                continue; // Saltamos este pedido si el producto no existe
+            }
+
+            const id_producto = producto[0].id_producto;
+
+            // Formatear la fecha
+            const fechaFormateada = new Date(fecha_pedido).toISOString().slice(0, 19).replace('T', ' ');
+
+            // Realizar el pedido en la base de datos
+            try {
+                await basededatos.query('CALL SP_CREAR_PEDIDO(?, ?, ?, ?, ?, ?, ?)', [
+                    id_usuario,      
+                    responsable,      
+                    id_producto,      
+                    fechaFormateada,  
+                    cantidad,         
+                    unidad_de_medida,
+                    caracteristicas    
+                ]);
+            } catch (error) {
+                errores.push(`Error al crear el pedido de ${responsable}: ${error.message}`);
+            }
         }
 
-        
-        const [producto] = await basededatos.query('SELECT id_producto FROM productos WHERE nombre = ?', [nombre_producto]);
-
-        
-        if (producto.length === 0) {
-            return res.status(404).json({ "error": "El producto no existe en la base de datos" });
+        // Si hubo errores, los devolvemos como respuesta
+        if (errores.length > 0) {
+            return res.status(400).json({ errores });
         }
 
-        const id_producto = producto[0].id_producto;
+        // Si todo fue correcto, devolvemos una respuesta de éxito
+        res.json({ "respuesta": "Los pedidos fueron creados correctamente" });
 
-        
-        const fechaFormateada = new Date(fecha_pedido).toISOString().slice(0, 19).replace('T', ' ');
-
-        
-        const [respuesta] = await basededatos.query('CALL SP_CREAR_PEDIDO(?, ?, ?, ?, ?, ?, ?)', [
-            id_usuario,      
-            responsable,      
-            id_producto,      
-            fechaFormateada,  
-            cantidad,         
-            unidad_de_medida,
-            caracteristicas    
-        ]);
-
-        
-        res.json({ "respuesta": "El pedido fue creado correctamente" });
     } catch (error) {
-        
-        console.error("Error al crear el pedido:", error);
-        res.status(500).json({ "error": "El pedido no se pudo crear" });
+        console.error("Error al crear los pedidos:", error);
+        res.status(500).json({ "error": "Hubo un problema al crear los pedidos" });
     }
 };
+
+
 
 const eliminarpedido = async (req, res) => {
 
