@@ -30,10 +30,10 @@ const listarproducto = async (req, res) => {
 };
 const crearproducto = async (req, res) => {
     
-    const {nombre, unidad_de_medida, precio, imagen} = req.body;
+    const {nombre, unidad_de_medida, precio, disponibilidad, imagen} = req.body;
 
     try {
-        const [respuesta] = await basededatos.query(`CALL SP_CREAR_PRODUCTO(?,?,?,?)`, [nombre, unidad_de_medida, precio, imagen])
+        const [respuesta] = await basededatos.query(`CALL SP_CREAR_PRODUCTO(?,?,?,?,?)`, [nombre, unidad_de_medida, precio, disponibilidad, imagen])
         res.json({"respuesta": "El producto ha sido creado"})
     } catch (error) {
         res.json({"error": "El producto no se pudo crear"})
@@ -41,19 +41,19 @@ const crearproducto = async (req, res) => {
 };
 const modificarproducto = async (req, res) => {
     const { nombre } = req.params;  
-    const { nombre_nuevo, unidad_de_medida, precio, imagen } = req.body;  
+    const { nombre_nuevo, unidad_de_medida, precio, disponibilidad} = req.body;  
 
     try {
         const [respuesta] = await basededatos.query(
             `CALL SP_MODIFICAR_PRODUCTO(?, ?, ?, ?, ?)`, 
-            [nombre, nombre_nuevo, unidad_de_medida, precio, imagen]
+            [nombre, nombre_nuevo, unidad_de_medida, precio, disponibilidad]
         );
 
-        // Imprime la respuesta para depuración
+        
         console.log("Respuesta del procedimiento almacenado:", respuesta);
 
         if (respuesta && respuesta[0]) {
-            const resultado = respuesta[0][0]; // Accede al primer conjunto de resultados
+            const resultado = respuesta[0][0]; 
             console.log("Resultado procesado:", resultado);
 
             if (resultado && resultado.affectedRows > 0) {
