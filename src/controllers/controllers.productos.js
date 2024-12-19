@@ -30,10 +30,10 @@ const listarproducto = async (req, res) => {
 };
 const crearproducto = async (req, res) => {
     
-    const {nombre, unidad_de_medida, precio, disponibilidad, imagen} = req.body;
+    const {nombre, unidad_de_medida, disponibilidad, imagen} = req.body;
 
     try {
-        const [respuesta] = await basededatos.query(`CALL SP_CREAR_PRODUCTO(?,?,?,?,?)`, [nombre, unidad_de_medida, precio, disponibilidad, imagen])
+        const [respuesta] = await basededatos.query(`CALL SP_CREAR_PRODUCTO(?,?,?,?)`, [nombre, unidad_de_medida, disponibilidad, imagen])
         res.json({"respuesta": "El producto ha sido creado"})
     } catch (error) {
         res.json({"error": "El producto no se pudo crear"})
@@ -41,12 +41,12 @@ const crearproducto = async (req, res) => {
 };
 const modificarproducto = async (req, res) => {
     const { nombre } = req.params;  
-    const { nombre_nuevo, unidad_de_medida, precio, disponibilidad} = req.body;  
+    const { nombre_nuevo, unidad_de_medida, disponibilidad} = req.body;  
 
     try {
         const [respuesta] = await basededatos.query(
-            `CALL SP_MODIFICAR_PRODUCTO(?, ?, ?, ?, ?)`, 
-            [nombre, nombre_nuevo, unidad_de_medida, precio, disponibilidad]
+            `CALL SP_MODIFICAR_PRODUCTO(?, ?, ?, ?)`, 
+            [nombre, nombre_nuevo, unidad_de_medida, disponibilidad]
         );
 
         

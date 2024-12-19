@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-12-2024 a las 19:14:53
+-- Tiempo de generación: 19-12-2024 a las 22:41:48
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -52,9 +52,9 @@ INSERT INTO pedidos(id_usuario, responsable, id_producto, fecha_pedido, cantidad
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_CREAR_PRODUCTO` (IN `_NOMBRE` VARCHAR(100), IN `_UNIDADDEMEDIDA` VARCHAR(50), IN `_PRECIO` DECIMAL(10,3), IN `_DISPONIBILIDAD` VARCHAR(20), IN `_IMAGEN` TEXT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_CREAR_PRODUCTO` (IN `_NOMBRE` VARCHAR(100), IN `_UNIDADDEMEDIDA` VARCHAR(50), IN `_DISPONIBILIDAD` VARCHAR(20), IN `_IMAGEN` TEXT)   BEGIN
 
-INSERT INTO productos(nombre, unidad_de_medida, precio, disponibilidad, imagen) VALUES (_NOMBRE, _UNIDADDEMEDIDA, _PRECIO, _DISPONIBILIDAD, _IMAGEN);
+INSERT INTO productos(nombre, unidad_de_medida, disponibilidad, imagen) VALUES (_NOMBRE, _UNIDADDEMEDIDA, _DISPONIBILIDAD, _IMAGEN);
 
 END$$
 
@@ -114,12 +114,11 @@ SELECT * FROM usuarios;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_MODIFICAR_PRODUCTO` (IN `_NOMBRE` VARCHAR(100), IN `_NOMBRE_NUEVO` VARCHAR(100), IN `_UNIDADMEDIDA` VARCHAR(50), IN `_PRECIO` DECIMAL(10,3), IN `_DISPONIBILIDAD` VARCHAR(20))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_MODIFICAR_PRODUCTO` (IN `_NOMBRE` VARCHAR(100), IN `_NOMBRE_NUEVO` VARCHAR(100), IN `_UNIDADMEDIDA` VARCHAR(50), IN `_DISPONIBILIDAD` VARCHAR(20))   BEGIN
     UPDATE productos 
     SET 
         nombre = _NOMBRE_NUEVO, 
         unidad_de_medida = _UNIDADMEDIDA,
-        precio = _PRECIO,
         disponibilidad = _DISPONIBILIDAD
     WHERE nombre = _NOMBRE;
 
@@ -135,7 +134,7 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_MOSTRAR_PRODUCTO` (IN `_ID_PRODUCTO` INT(10))   BEGIN
 
-SELECT id_producto, nombre, unidad_de_medida, precio, disponibilidad, imagen FROM productos WHERE id_producto = _ID_PRODUCTO;
+SELECT id_producto, nombre, unidad_de_medida, disponibilidad, imagen FROM productos WHERE id_producto = _ID_PRODUCTO;
 
 END$$
 
@@ -215,23 +214,6 @@ CREATE TABLE `pedidos` (
   `caracteristicas` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `pedidos`
---
-
-INSERT INTO `pedidos` (`id_pedido`, `id_usuario`, `responsable`, `id_producto`, `fecha_pedido`, `cantidad`, `unidad_de_medida`, `caracteristicas`) VALUES
-(113, 20, 'julio', 59, '2024-12-19 18:03:52', 7, 'KL', 'No aplica'),
-(114, 25, 'Sebastian', 49, '2024-12-19 18:05:57', 10, 'GR', 'No aplica'),
-(115, 20, 'Jhoan', 49, '2024-12-19 18:05:44', 9, 'GR', 'No aplica'),
-(116, 20, 'julio', 55, '2024-12-19 18:06:39', 7, 'GR', 'No aplica'),
-(117, 20, 'Jhoan', 55, '2024-12-19 18:07:56', 2, 'GR', 'Maduro'),
-(118, 20, 'Jhoan', 55, '2024-12-19 18:09:00', 2, 'GR', 'No aplica'),
-(119, 25, 'Sebastian', 55, '2024-12-19 18:09:41', 9, 'GR', 'No aplica'),
-(120, 20, 'Jhoan', 49, '2024-12-19 18:09:52', 1, 'GR', 'No aplica'),
-(121, 25, 'Sebastian', 55, '2024-12-19 18:10:13', 2, 'GR', 'No aplica'),
-(122, 25, 'Sebastian', 49, '2024-12-19 18:10:49', 4, 'GR', 'Pinton'),
-(123, 25, 'Sebastian', 55, '2024-12-19 18:11:08', 7, 'GR', 'No aplica');
-
 -- --------------------------------------------------------
 
 --
@@ -242,7 +224,6 @@ CREATE TABLE `productos` (
   `id_producto` int(10) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `unidad_de_medida` varchar(50) NOT NULL,
-  `precio` decimal(10,3) NOT NULL,
   `disponibilidad` varchar(20) NOT NULL,
   `imagen` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -251,20 +232,63 @@ CREATE TABLE `productos` (
 -- Volcado de datos para la tabla `productos`
 --
 
-INSERT INTO `productos` (`id_producto`, `nombre`, `unidad_de_medida`, `precio`, `disponibilidad`, `imagen`) VALUES
-(43, 'Aji Dulce', 'GR', 0.000, 'AGOTADO', 'https://ricuracostena.com.co/wp-content/uploads/2022/06/112.jpg'),
-(49, 'Aguacate', 'GR', 20.000, 'DISPONIBLE', 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSE_ZQVi0Q8Q2E5g-J4qn9hEu8fB4eeCpxb7Ew1J3c0YG014mNaf6NQy0GK2P9WIjjimPP-ZGCv2_T9K4Aa3G9QXeXHdgoA7anzRewvIog'),
-(50, 'Aguacate', 'GR', 20.000, 'DISPONIBLE', 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSE_ZQVi0Q8Q2E5g-J4qn9hEu8fB4eeCpxb7Ew1J3c0YG014mNaf6NQy0GK2P9WIjjimPP-ZGCv2_T9K4Aa3G9QXeXHdgoA7anzRewvIog'),
-(51, 'Aguacate', 'GR', 20.000, 'DISPONIBLE', 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSE_ZQVi0Q8Q2E5g-J4qn9hEu8fB4eeCpxb7Ew1J3c0YG014mNaf6NQy0GK2P9WIjjimPP-ZGCv2_T9K4Aa3G9QXeXHdgoA7anzRewvIog'),
-(52, 'Aguacate', 'GR', 20.000, 'DISPONIBLE', 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSE_ZQVi0Q8Q2E5g-J4qn9hEu8fB4eeCpxb7Ew1J3c0YG014mNaf6NQy0GK2P9WIjjimPP-ZGCv2_T9K4Aa3G9QXeXHdgoA7anzRewvIog'),
-(53, 'Aguacate', 'GR', 20.000, 'DISPONIBLE', 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSE_ZQVi0Q8Q2E5g-J4qn9hEu8fB4eeCpxb7Ew1J3c0YG014mNaf6NQy0GK2P9WIjjimPP-ZGCv2_T9K4Aa3G9QXeXHdgoA7anzRewvIog'),
-(55, 'Manzana 2', 'GR', 20.000, 'DISPONIBLE', 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSE_ZQVi0Q8Q2E5g-J4qn9hEu8fB4eeCpxb7Ew1J3c0YG014mNaf6NQy0GK2P9WIjjimPP-ZGCv2_T9K4Aa3G9QXeXHdgoA7anzRewvIog'),
-(56, 'Cebolla Original 2.0', 'GR', 0.000, 'AGOTADO', 'qawsedr'),
-(57, 'Manzana 2', 'GR', 20.000, 'DISPONIBLE', 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSE_ZQVi0Q8Q2E5g-J4qn9hEu8fB4eeCpxb7Ew1J3c0YG014mNaf6NQy0GK2P9WIjjimPP-ZGCv2_T9K4Aa3G9QXeXHdgoA7anzRewvIog'),
-(58, 'Banano', 'GR', 18.000, 'AGOTADO', 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxASDxAQEBMQEBAQDxASDxAQEA8PEA8QFRIWFhURFhUYHSggGBolGxUVITEhJSkrLi4uFx8zODMsNygtLisBCgoKDg0OGhAQGy0lHR8tLS0tLS0tLS0rLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSstLf/AABEIAOEA4QMBEQACEQEDEQH/xAAcAAEAAgMBAQEAAAAAAAAAAAAAAwUCBAYBBwj/xAA7EAACAQMBBQUGBAMJAQAAAAAAAQIDBBEFEiExQVEGE2FxkSIygaHB0UJSgrEjYnIHFBUzQ5Ky4fAW/8QAGgEBAAMBAQEAAAAAAAAAAAAAAAIDBAEFBv/EAC0RAQACAgEDBAAFBAMBAAAAAAABAgMRBBIhMQUTQVEUIjJhkXGBobFCwfEz/9oADAMBAAIRAxEAPwD7iAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADR1fUY29KVSSlJ8IQj705vhFdPN7kU589MNeq89kqUm86hraNqlSrHaqxhDPBQcpKPg5NLa88IxYPUa5J7xqFt8PSt8npbUB0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAOb7U1MyhD8sXJ+bf/XzPnfW77mtPru2cWPMtfSrnHs8n+54vGz9FumV+Wm+66oV2vse3g5dqT28MtqRLfp1E1lHuYstcleqGeYmJZlrgAAAAAAAAAAAAAAAAAAAAAAAAANHV9Up29PbntScpKMKcMOdST5RTaXDLbzuSbKs2amGvXeeyVKTadQ906/7yKco7Df4dra+GcFGDmUyzrx9JXxzVz3aKX8afhs/8'),
-(59, 'Prueba2', 'KL', 17.000, 'DISPONIBLE', 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxESEhMSEBIQFRASEBUQDw8PEA8QDxIVFRYWFhUVFRUYHSgiGBolGxUVITEhJikrLi4uFx8zODMsNygtLisBCgoKDg0OGxAQGi0lICUtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLf/AABEIAKEBOQMBEQACEQEDEQH/xAAbAAEAAgMBAQAAAAAAAAAAAAAABAUCAwYBB//EADUQAAIBAgMFBgUDBAMAAAAAAAABAgMRBCExBRJBUXEGImGBkaETMrHR4UJiwQdSgvAUI5L/xAAZAQEAAwEBAAAAAAAAAAAAAAAAAgMEAQX/xAAvEQEAAgIBBAADBwQDAQAAAAAAAQIDESEEEjFBEyJRBTJhcYGR8EKhsdEVI8EU/9oADAMBAAIRAxEAPwD7iAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADGd7O1r2yvpfxOTvXDsa3yrcDtulNJSnCNTvKcN5d3dk43d+DaM2Dqq5I58+/waMvTWpPEcellCaejT6O5piYnwzzEx5ZHXAABhUqxj8zS6kbXrXzKVazbxCHU2pBaKUuisvczW6zHHjcr69LefPCHW261pBecrme32hPqrRXoY9yr6vaaov00/NS+5T/AMjk+kLY6Cn1ltw3a6N7VabX7oPeXoy2n2lH9cfshf7On+if3X+DxlOqt6nJSXG2q6rgehjy0yRus7YMmK+OdWjTeWKwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfPO1nYSpOc8RhKi31eaotZt6tRlfU8nN9n+bV/Z6/T/aEcVv+7HYO06nw03vRqw7lSLupJrn+TBXJbHPy8S15MNbeeYdDhtvT0ajLr3X6rL2NeP7RyR5jf8AZjv0FPXCzp7UT/Q/VW9TbXrItH3WS3SzHsnjJPRW6'),
-(60, 'Aji manzana', 'GR', 50.000, 'AGOTADO', 'https://lavaquita.co/cdn/shop/products/76b6170a-f1e1-4a92-8622-cee94a659b91_700x700.png?v=1622197616'),
-(65, 'Manzana 2', 'GR', 20.000, 'DISPONIBLE', 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSE_ZQVi0Q8Q2E5g-J4qn9hEu8fB4eeCpxb7Ew1J3c0YG014mNaf6NQy0GK2P9WIjjimPP-ZGCv2_T9K4Aa3G9QXeXHdgoA7anzRewvIog');
+INSERT INTO `productos` (`id_producto`, `nombre`, `unidad_de_medida`, `disponibilidad`, `imagen`) VALUES
+(1, 'Aguacate', 'UND', 'DISPONIBLE', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbY4XScUa4Jhno5r1L6pgRMJXLPg4dWb7n6g&s'),
+(2, 'Albahaca', 'GR', 'DISPONIBLE', 'https://cdn.portalfruticola.com/2020/04/7e2db098-albahaca-basil-adobestock_81129315-scaled.jpeg'),
+(3, 'Ají Dulce', 'GR', 'DISPONIBLE', 'https://mrbatatacolombia.com/wp-content/uploads/2022/02/dulce-1-1.jpg'),
+(4, 'Ají Rocoto', 'GR', 'DISPONIBLE', 'https://villavoexpress.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MzAxNjAsInB1ciI6ImJsb2JfaWQifX0=--36f6f3d2ff77ea60c59a485de800c89b40498d5f/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJqcGciLCJyZXNpemVfdG9fZml0IjpbODAwLDgwMF19LCJwdXIiOiJ2YXJpYXRpb24ifX0=--1420d7fd3d20057726f0ef3c0043db24ca0403be/aji-ricoto.jpg?locale=es'),
+(5, 'Ajo Importado', 'GR', 'DISPONIBLE', 'https://acdn.mitiendanube.com/stores/001/252/117/products/ajo1-1b3c562cd1c2a15de215939057774345-640-0.png'),
+(6, 'Brocoli', 'UND', 'DISPONIBLE', 'https://mercadomadrid.com.co/11082-superlarge_default_2x/brocoli-kilo.jpg'),
+(7, 'Cebolla Puerro', 'GR', 'DISPONIBLE', 'https://lavaquita.co/cdn/shop/products/2ea7df90-f8d4-4412-8d9a-1f6658253876_700x700.png?v=1622197623'),
+(9, 'Cebolla Blanca', 'GR', 'DISPONIBLE', 'https://lavaquita.co/cdn/shop/products/a2be3a55-f2da-4708-8461-ff66b3d2a659_700x700.png?v=1622197621'),
+(10, 'Cebolla Morada', 'GR', 'DISPONIBLE', 'https://distribuidoractcpanama.com/wp-content/uploads/2020/09/cebolla-morada-450x450-1.jpg'),
+(11, 'Cebolla Rama', 'GR', 'DISPONIBLE', 'https://supermercadolaestacion.com/36027-thickbox_default/cebolla-rama.jpg'),
+(13, 'Cebollin', 'GR', 'DISPONIBLE', 'https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/tottusCL/05014124_1/w=800,h=800,fit=pad'),
+(14, 'Champiñones bandeja X500', 'UND', 'DISPONIBLE', 'https://maxitenjo.com.co/cdn/shop/products/1435529_800x.jpg?v=1597421569'),
+(15, 'Champiñones bandeja X1000', 'UND', 'DISPONIBLE', 'https://vaquitaexpress.com.co/media/catalog/product/cache/e89ece728e3939ca368b457071d3c0be/2/0/20700041_33.jpg'),
+(16, 'Cilantro', 'GR', 'DISPONIBLE', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPCm2Y0HgHSSsXy92KoyZiBay4Hw-cqUzBCQ&s'),
+(17, 'Coliflor', 'UND', 'DISPONIBLE', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7z3TzwWCvS3W2LRsT0CuIKl1QYg9GjdO2Fw&s'),
+(18, 'Colchina', 'UND', 'DISPONIBLE', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjMNuSWtA7121sBdrDvUp6sYV4L1o3Pp6eWQ&s'),
+(19, 'Esparragos', 'GR', 'DISPONIBLE', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1enXlbVLMOTAXnlBmwHB8wEWTKYuNLY57Fg&s'),
+(20, 'Fresa Bandeja X500 GRS', 'UND', 'DISPONIBLE', 'https://mercaldas.vtexassets.com/arquivos/ids/230337/fresas-x500-g_4644.jpg?v=637840665070730000'),
+(21, 'Germinado de alfalfa X200 GRS', 'UND', 'DISPONIBLE', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzg3F3OJl3KVPouUp9ok5a51HjVWMz2vWUmw&s'),
+(22, 'Guisantes X200 GRS', 'UND', 'DISPONIBLE', 'https://exitocol.vtexassets.com/arquivos/ids/25416854/Guisantes-X-200gr-626713_a.jpg?v=638657253367700000'),
+(23, 'Jengibre', 'GR', 'DISPONIBLE', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO5c-pvrFChz2TFkdQTIcE3E9VmynHGNeWSg&s'),
+(24, 'Kiwi', 'UND', 'DISPONIBLE', 'https://imag.bonviveur.com/un-kiwi-entero-y-corte-transversal-de-un-kiwi.jpg'),
+(25, 'Lechuga Morada', 'UND', 'DISPONIBLE', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7KoxmAOuyBqt19talf1qxf9Ai828krHqqrA&s'),
+(26, 'Lechuga Verde', 'UND', 'DISPONIBLE', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQKVwlzhfLab2Z_BsxwY5bdXd-vFPISr0lFw&s'),
+(27, 'Limón tahiti', 'GR', 'DISPONIBLE', 'https://sembrandoconfianza.com/wp-content/uploads/2022/04/Limon-Tahiti.jpg'),
+(28, 'Limón Pajarito', 'GR', 'DISPONIBLE', 'https://tienda.comersano.co/162-large_default/limon-pajarito.jpg'),
+(29, 'Limón Mandarino', 'GR', 'DISPONIBLE', 'https://vaquitaexpress.com.co/media/catalog/product/cache/e89ece728e3939ca368b457071d3c0be/1/8/189_32.jpg'),
+(30, 'Limonaria', 'GR', 'DISPONIBLE', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgjY_mGOYitlRAxe9G3IqOOir7o2ET2tiQKg&s'),
+(31, 'Maíz Blanco', 'GR', 'DISPONIBLE', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwpDQ4c6deCcMRY8EeLjghLerL2QU13CnMoA&s'),
+(32, 'Mango Tommy', 'UND', 'DISPONIBLE', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQ9DCPX4sr-0VOliuG2DP7ux5MQOfoLnrxjw&s'),
+(33, 'Maracuyá', 'UND', 'DISPONIBLE', 'https://5aldia.cl/wp-content/uploads/2021/11/maracuya.webp'),
+(34, 'Murrapo', 'UND', 'DISPONIBLE', 'https://exitocol.vtexassets.com/arquivos/ids/25416142/MURRAPO-UNIDAD-1601872_a.jpg?v=638657245962500000'),
+(35, 'Naranja Tangelo', 'UND', 'DISPONIBLE', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCxlJLWQkTchK25ZucwI8CCcBsRBwsN4tl5g&s'),
+(36, 'Papa Capira', 'GR', 'DISPONIBLE', 'https://carulla.vtexassets.com/arquivos/ids/14872376/PAPA-CAPIRA-990013_a.jpg?v=638457950893870000'),
+(38, 'Pepino', 'UND', 'DISPONIBLE', 'https://agroactivocol.com/wp-content/uploads/2020/08/PEPINO-POINSETT.jpg.webp'),
+(39, 'Perejil', 'GR', 'DISPONIBLE', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZSOBy-AVmV9D2zh1Fzl5OrVeK_6PzgWCx5Q&s'),
+(40, 'Pimentón Rojo', 'UND', 'DISPONIBLE', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTj__4iKTJhMppvk5_tOXh0yuOrR-bYaWGw4A&s'),
+(41, 'Pimentón Amarillo', 'UND', 'DISPONIBLE', 'https://fruverhome.co/wp-content/uploads/2020/08/AMARILLO-1024x1024.jpg.webp'),
+(42, 'Piña oro miel', 'UND', 'DISPONIBLE', 'https://vaquitaexpress.com.co/media/catalog/product/cache/e89ece728e3939ca368b457071d3c0be/2/5/255_32.jpg'),
+(43, 'Mezclon', 'UND', 'DISPONIBLE', 'https://cdn.pixabay.com/photo/2015/11/29/11/35/vegetables-1068592_640.jpg'),
+(44, 'Plátano Maduro', 'UND', 'DISPONIBLE', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRm8toDAZfka4k7NseEzsf8f2EJzjUYzlV4Cw&s'),
+(46, 'Plátano Verde', 'UND', 'DISPONIBLE', 'https://terrabad.co/wp-content/uploads/2020/09/platano-verde.jpg'),
+(48, 'Remolacha', 'GR', 'DISPONIBLE', 'https://maxitenjo.com.co/cdn/shop/products/Remolacha-Por-Kg-1-236660_1024x.png?v=1597775398'),
+(49, 'Rabano', 'GR', 'DISPONIBLE', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjRvIiFaqFezoHW9Ye8d9W0mxo4tfXkTT7Sw&s'),
+(51, 'Repollo Morado', 'UND', 'DISPONIBLE', 'https://megatiendas.vtexassets.com/arquivos/ids/164234-800-450?v=638284928615330000&width=800&height=450&aspect=true'),
+(54, 'Raíz China', 'UND', 'DISPONIBLE', 'https://eurosuper.vtexassets.com/arquivos/ids/172971-800-800?v=638316072865500000&width=800&height=800&aspect=true'),
+(55, 'Romero', 'GR', 'DISPONIBLE', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4lN7IeYTYsQ-LsTv0iK9aDwbhnS8rmKtZWA&s'),
+(56, 'Sandia Baby', 'UND', 'DISPONIBLE', 'https://yomercofacil.com/wp-content/uploads/2018/06/sandia.jpg'),
+(59, 'Huevos X30 AA', 'UND', 'DISPONIBLE', 'https://villavoexpress.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NDI2MiwicHVyIjoiYmxvYl9pZCJ9fQ==--086a00c5a4502742d805d622aaae2da49dbdc37c/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJqcGciLCJyZXNpemVfdG9fZml0IjpbODAwLDgwMF19LCJwdXIiOiJ2YXJpYXRpb24ifX0=--1420d7fd3d20057726f0ef3c0043db24ca0403be/huevos.jpg?locale=es'),
+(60, 'Huevos X15 AA', 'UND', 'DISPONIBLE', 'https://mistiendas.com.co/23348-large_default/huevos-fresquesitos-huevos-tipo-aa-rojo-x15.jpg'),
+(61, 'Yacón', 'GR', 'DISPONIBLE', 'https://comedelahuerta.com/wp-content/uploads/2020/10/Yacon-Ecologico.jpg'),
+(62, 'Uchuva X250', 'UND', 'DISPONIBLE', 'https://carulla.vtexassets.com/arquivos/ids/17385916/UCHUVA-BANDEJA-1623_a.jpg?v=638609265332500000'),
+(63, 'Yerbabuena', 'GR', 'DISPONIBLE', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNT994-VpgK1IAIvA09IHwNUOYy_K01ErwcQ&s'),
+(64, 'Zanahoria', 'GR', 'DISPONIBLE', 'https://mistiendas.com.co/4-large_default/zanahoria-selecta-kilo.jpg'),
+(65, 'Zuccini', 'UND', 'DISPONIBLE', 'https://lavaquita.co/cdn/shop/products/9a50415c-2c1b-4b4f-8965-522634fbd588_1024x1024.png?v=1622197531'),
+(66, 'Apio', 'UND', 'DISPONIBLE', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM8RNPbHzp7M1sTTnzcmW3JlM6ukaxWTEN5A&s');
 
 -- --------------------------------------------------------
 
@@ -285,12 +309,18 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `usuario`, `nombre`, `contrasena`, `rol`) VALUES
-(8, 'pruebacrear', 'crear', '$2b$04$rLTuiyzCBn8KJ/dSMuvF8uRrUSzGjv0LPKuxCqZozlUlhJpmdqtwm', 'Proveedor'),
-(10, 'pruebacrear', 'crear', '$2b$04$j4DEt/R8UVTzXH8P8rqNqeHKRXKZt6KzyV1IcfDVZvK9AG4UdGT9u', 'Proveedor'),
-(12, 'Jhoan', 'Jhoan212', '$2b$04$OobhiHGwY62kOxv5EWJgjuyRBD.QAEywCEL6Mktnotxi0pxoTVISe', 'Cliente'),
-(18, 'JhoanProveedor', 'Jhoan Monsalve Gallego', '$2b$04$j.cUipyCW7qieYJuiGOhYezHq6Aj4R87CpQg2jq4UpKX8RDPz3Ob.', 'Proveedor'),
-(20, 'JhoanUsuario', 'Jhoan', '$2b$04$if5qfq0Mjeh2q1GrFpAqq.5SVoMI6rLlejJej.yVqgVfn3B2xl5Fi', 'Cliente'),
-(25, 'Sebastian1', 'Sebastian', '$2b$04$DobUSHD.JipBILhDFGVmDe7fJNN6So.PeH15LAsuIu0aJTWUdxTuK', 'Cliente');
+(1, 'JaiberJM', 'Jaiber', '$2b$04$4JstMM5QTNBJWvIXdhkYgOpg/tOtslDHb7gc1OGf61E13Gg5EHBEa', 'Proveedor'),
+(2, 'AmsterdamSM', 'Sushi Market Amsterdam', '$2b$04$dtoDhlYH0c.IRKLDBOXUyeGWg9XuPn1Pv4v6OrZLZvLS.CiXKPIre', 'Cliente'),
+(3, 'TesoroSM', 'Sushi Market Tesoro', '$2b$04$EOP2QLQRBPuJbfpGyHEv2euXRcl7Lj.PhlYBqaMzYm8SjduK2S.cG', 'Cliente'),
+(4, 'SanlucasSM', 'Sushi Market San Lucas', '$2b$04$KGIHJgKl2zACXoZ7Guf9N.C9Do73L/Dq2kXEBrfDuJLxqLFwwDJC2', 'Cliente'),
+(5, 'Zona2SM', 'Sushi Market Zona 2', '$2b$04$obIdkGnaf2jjxuUVwGG2pey5Z19BiKNu0EeQmADNPuVJlxP7vf3/2', 'Cliente'),
+(6, 'VivaenvigadoSM', 'Sushi Market Viva Envigado', '$2b$04$4VDX0UyzVxTm1yZHMyl5q.HZdgzFbAzUQxuq3O.1yb/qowCf4EYgK', 'Cliente'),
+(7, 'ContenedoresSM', 'Sushi Market Contenedores', '$2b$04$RrUY18dKXZ9bZpuES5rBdumeQ/eu5IVbo94ux2dtltl5KKiNBl6om', 'Cliente'),
+(8, 'CityplazaSM', 'Sushi Market City Plaza', '$2b$04$/Q//V8REzMfyzFfXTrcbJ.tbAK7IdPlK2gOgIsqmq/Wjkm4eEhAvm', 'Cliente'),
+(9, 'LaurelesSM', 'Sushi Market Laureles ', '$2b$04$15F11HCyHjRkupcb2IeyfuosPj1kBF0KKyMJuhWu/daCTV6rRVtHm', 'Cliente'),
+(10, 'ColoresSM', 'Sushi Market Colores', '$2b$04$oNcv70QTSviHPIx1BGl9luYX6AmyzzSPZCfKU0yEHA78WK4kQ6RYK', 'Cliente'),
+(11, 'VivapalmasSM', 'Sushi Market Viva Palmas', '$2b$04$iyoNN3nEd1bGbuMafNF0hegGtE2WPZ9rHwMXD2Zt6IDhbA1HsAAAG', 'Cliente'),
+(12, 'JardinesSM', 'Sushi Market Jardines', '$2b$04$tsJazZpYvMX3F86Us/B.3urCG8p05DN5T0APuQfhm2QgUxfPjAm4a', 'Cliente');
 
 --
 -- Índices para tablas volcadas
@@ -324,19 +354,19 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id_producto` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id_producto` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id_usuario` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Restricciones para tablas volcadas
