@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-12-2024 a las 17:54:15
+-- Tiempo de generación: 19-12-2024 a las 19:14:53
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -220,13 +220,17 @@ CREATE TABLE `pedidos` (
 --
 
 INSERT INTO `pedidos` (`id_pedido`, `id_usuario`, `responsable`, `id_producto`, `fecha_pedido`, `cantidad`, `unidad_de_medida`, `caracteristicas`) VALUES
-(93, 20, 'Prueba', 49, '2024-12-16 15:46:25', 9, 'KL', 'No aplica'),
-(94, 12, 'Diciembre 2.0', 60, '2024-12-16 15:46:57', 8, 'GR', 'No aplica'),
-(101, NULL, 'Julio', 43, '2024-12-17 15:09:08', 3, 'GR', 'No aplica'),
-(105, 20, 'Jhoan Monsalve', 49, '2024-12-18 16:50:15', 1, 'KL', 'No aplica'),
-(106, 20, 'Jhoan Monsalve', 49, '2024-12-18 16:51:42', 6, 'KL', 'Maduro'),
-(107, 20, 'Jhoan Monsalve', 55, '2024-12-18 16:51:51', 5, 'GR', 'No aplica'),
-(108, 20, 'Jhoan Monsalve', 59, '2024-12-18 16:52:00', 7, 'KL', 'No aplica');
+(113, 20, 'julio', 59, '2024-12-19 18:03:52', 7, 'KL', 'No aplica'),
+(114, 25, 'Sebastian', 49, '2024-12-19 18:05:57', 10, 'GR', 'No aplica'),
+(115, 20, 'Jhoan', 49, '2024-12-19 18:05:44', 9, 'GR', 'No aplica'),
+(116, 20, 'julio', 55, '2024-12-19 18:06:39', 7, 'GR', 'No aplica'),
+(117, 20, 'Jhoan', 55, '2024-12-19 18:07:56', 2, 'GR', 'Maduro'),
+(118, 20, 'Jhoan', 55, '2024-12-19 18:09:00', 2, 'GR', 'No aplica'),
+(119, 25, 'Sebastian', 55, '2024-12-19 18:09:41', 9, 'GR', 'No aplica'),
+(120, 20, 'Jhoan', 49, '2024-12-19 18:09:52', 1, 'GR', 'No aplica'),
+(121, 25, 'Sebastian', 55, '2024-12-19 18:10:13', 2, 'GR', 'No aplica'),
+(122, 25, 'Sebastian', 49, '2024-12-19 18:10:49', 4, 'GR', 'Pinton'),
+(123, 25, 'Sebastian', 55, '2024-12-19 18:11:08', 7, 'GR', 'No aplica');
 
 -- --------------------------------------------------------
 
@@ -249,11 +253,11 @@ CREATE TABLE `productos` (
 
 INSERT INTO `productos` (`id_producto`, `nombre`, `unidad_de_medida`, `precio`, `disponibilidad`, `imagen`) VALUES
 (43, 'Aji Dulce', 'GR', 0.000, 'AGOTADO', 'https://ricuracostena.com.co/wp-content/uploads/2022/06/112.jpg'),
-(49, 'jhoan', 'KL', 15.000, 'DISPONIBLE', 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSE_ZQVi0Q8Q2E5g-J4qn9hEu8fB4eeCpxb7Ew1J3c0YG014mNaf6NQy0GK2P9WIjjimPP-ZGCv2_T9K4Aa3G9QXeXHdgoA7anzRewvIog'),
-(50, 'jhoan', 'KL', 15.000, 'AGOTADO', 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSE_ZQVi0Q8Q2E5g-J4qn9hEu8fB4eeCpxb7Ew1J3c0YG014mNaf6NQy0GK2P9WIjjimPP-ZGCv2_T9K4Aa3G9QXeXHdgoA7anzRewvIog'),
-(51, 'jhoan', 'KL', 15.000, 'DISPONIBLE', 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSE_ZQVi0Q8Q2E5g-J4qn9hEu8fB4eeCpxb7Ew1J3c0YG014mNaf6NQy0GK2P9WIjjimPP-ZGCv2_T9K4Aa3G9QXeXHdgoA7anzRewvIog'),
-(52, 'jhoan', 'KL', 15.000, 'AGOTADO', 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSE_ZQVi0Q8Q2E5g-J4qn9hEu8fB4eeCpxb7Ew1J3c0YG014mNaf6NQy0GK2P9WIjjimPP-ZGCv2_T9K4Aa3G9QXeXHdgoA7anzRewvIog'),
-(53, 'jhoan', 'KL', 15.000, 'DISPONIBLE', 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSE_ZQVi0Q8Q2E5g-J4qn9hEu8fB4eeCpxb7Ew1J3c0YG014mNaf6NQy0GK2P9WIjjimPP-ZGCv2_T9K4Aa3G9QXeXHdgoA7anzRewvIog'),
+(49, 'Aguacate', 'GR', 20.000, 'DISPONIBLE', 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSE_ZQVi0Q8Q2E5g-J4qn9hEu8fB4eeCpxb7Ew1J3c0YG014mNaf6NQy0GK2P9WIjjimPP-ZGCv2_T9K4Aa3G9QXeXHdgoA7anzRewvIog'),
+(50, 'Aguacate', 'GR', 20.000, 'DISPONIBLE', 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSE_ZQVi0Q8Q2E5g-J4qn9hEu8fB4eeCpxb7Ew1J3c0YG014mNaf6NQy0GK2P9WIjjimPP-ZGCv2_T9K4Aa3G9QXeXHdgoA7anzRewvIog'),
+(51, 'Aguacate', 'GR', 20.000, 'DISPONIBLE', 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSE_ZQVi0Q8Q2E5g-J4qn9hEu8fB4eeCpxb7Ew1J3c0YG014mNaf6NQy0GK2P9WIjjimPP-ZGCv2_T9K4Aa3G9QXeXHdgoA7anzRewvIog'),
+(52, 'Aguacate', 'GR', 20.000, 'DISPONIBLE', 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSE_ZQVi0Q8Q2E5g-J4qn9hEu8fB4eeCpxb7Ew1J3c0YG014mNaf6NQy0GK2P9WIjjimPP-ZGCv2_T9K4Aa3G9QXeXHdgoA7anzRewvIog'),
+(53, 'Aguacate', 'GR', 20.000, 'DISPONIBLE', 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSE_ZQVi0Q8Q2E5g-J4qn9hEu8fB4eeCpxb7Ew1J3c0YG014mNaf6NQy0GK2P9WIjjimPP-ZGCv2_T9K4Aa3G9QXeXHdgoA7anzRewvIog'),
 (55, 'Manzana 2', 'GR', 20.000, 'DISPONIBLE', 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSE_ZQVi0Q8Q2E5g-J4qn9hEu8fB4eeCpxb7Ew1J3c0YG014mNaf6NQy0GK2P9WIjjimPP-ZGCv2_T9K4Aa3G9QXeXHdgoA7anzRewvIog'),
 (56, 'Cebolla Original 2.0', 'GR', 0.000, 'AGOTADO', 'qawsedr'),
 (57, 'Manzana 2', 'GR', 20.000, 'DISPONIBLE', 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSE_ZQVi0Q8Q2E5g-J4qn9hEu8fB4eeCpxb7Ew1J3c0YG014mNaf6NQy0GK2P9WIjjimPP-ZGCv2_T9K4Aa3G9QXeXHdgoA7anzRewvIog'),
@@ -285,7 +289,8 @@ INSERT INTO `usuarios` (`id_usuario`, `usuario`, `nombre`, `contrasena`, `rol`) 
 (10, 'pruebacrear', 'crear', '$2b$04$j4DEt/R8UVTzXH8P8rqNqeHKRXKZt6KzyV1IcfDVZvK9AG4UdGT9u', 'Proveedor'),
 (12, 'Jhoan', 'Jhoan212', '$2b$04$OobhiHGwY62kOxv5EWJgjuyRBD.QAEywCEL6Mktnotxi0pxoTVISe', 'Cliente'),
 (18, 'JhoanProveedor', 'Jhoan Monsalve Gallego', '$2b$04$j.cUipyCW7qieYJuiGOhYezHq6Aj4R87CpQg2jq4UpKX8RDPz3Ob.', 'Proveedor'),
-(20, 'JhoanUsuario', 'Jhoan', '$2b$04$if5qfq0Mjeh2q1GrFpAqq.5SVoMI6rLlejJej.yVqgVfn3B2xl5Fi', 'Cliente');
+(20, 'JhoanUsuario', 'Jhoan', '$2b$04$if5qfq0Mjeh2q1GrFpAqq.5SVoMI6rLlejJej.yVqgVfn3B2xl5Fi', 'Cliente'),
+(25, 'Sebastian1', 'Sebastian', '$2b$04$DobUSHD.JipBILhDFGVmDe7fJNN6So.PeH15LAsuIu0aJTWUdxTuK', 'Cliente');
 
 --
 -- Índices para tablas volcadas
@@ -319,7 +324,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
@@ -331,7 +336,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id_usuario` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Restricciones para tablas volcadas
