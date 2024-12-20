@@ -12,47 +12,37 @@ const listarpedido = async (req, res) => {
         res.json({"error": error})
     }
 };
-const contadorpedido = async (req, res) => {
-
-    try {
-        const [respuesta] = await basededatos.query(`CALL SP_CONTADOR_PEDIDOS()`);
-        res.json(respuesta[0])
-    } catch (error) {
-        res.json({"error": error})
-    }
-};
-
 const crearpedido = async (req, res) => {
-    const pedidos = req.body;  // Esperamos un array de pedidos en el body
+    const pedidos = req.body;  
 
     try {
-        // Inicializamos una variable para almacenar los errores
+        
         const errores = [];
         
-        // Iteramos sobre el array de pedidos
+        
         for (const pedido of pedidos) {
             const { id_usuario, responsable, nombre_producto, fecha_pedido, cantidad, unidad_de_medida, caracteristicas } = pedido;
 
             // Validar datos requeridos
             if (!nombre_producto || nombre_producto === undefined) {
                 errores.push(`El pedido de ${responsable} tiene un nombre de producto no válido.`);
-                continue; // Saltamos este pedido si hay error en el nombre del producto
+                continue; 
             }
 
-            // Buscar el producto en la base de datos
+            
             const [producto] = await basededatos.query('SELECT id_producto FROM productos WHERE nombre = ?', [nombre_producto]);
 
             if (producto.length === 0) {
                 errores.push(`El producto '${nombre_producto}' no existe en la base de datos para el pedido de ${responsable}.`);
-                continue; // Saltamos este pedido si el producto no existe
+                continue; 
             }
 
             const id_producto = producto[0].id_producto;
 
-            // Formatear la fecha
+            
             const fechaFormateada = new Date(fecha_pedido).toISOString().slice(0, 19).replace('T', ' ');
 
-            // Realizar el pedido en la base de datos
+            
             try {
                 await basededatos.query('CALL SP_CREAR_PEDIDO(?, ?, ?, ?, ?, ?, ?)', [
                     id_usuario,      
@@ -68,12 +58,12 @@ const crearpedido = async (req, res) => {
             }
         }
 
-        // Si hubo errores, los devolvemos como respuesta
+       
         if (errores.length > 0) {
             return res.status(400).json({ errores });
         }
 
-        // Si todo fue correcto, devolvemos una respuesta de éxito
+        
         res.json({ "respuesta": "Los pedidos fueron creados correctamente" });
 
     } catch (error) {
@@ -152,5 +142,5 @@ const obtenerPedidosPorUsuario = async (req, res) => {
 
 
 export {
-    listarpedido, contadorpedido, crearpedido, eliminarpedido, obtenerPedidosPorUsuario
+    listarpedido, crearpedido, eliminarpedido, obtenerPedidosPorUsuario
 }

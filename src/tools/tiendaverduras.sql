@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-12-2024 a las 22:41:48
+-- Tiempo de generación: 20-12-2024 a las 15:44:37
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -80,9 +80,7 @@ DELETE FROM usuarios WHERE id_usuario = _ID_USUARIO;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LISTAR_PEDIDO` ()   BEGIN
-
-SELECT 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LISTAR_PEDIDO` ()   SELECT 
     p.id_pedido,
     u.nombre AS nombre_usuario,
     p.responsable,
@@ -96,10 +94,9 @@ FROM
 LEFT JOIN 
     usuarios u ON p.id_usuario = u.id_usuario
 LEFT JOIN 
-    productos prod ON p.id_producto = prod.id_producto;
-
-
-END$$
+    productos prod ON p.id_producto = prod.id_producto
+ORDER BY 
+    p.fecha_pedido ASC, u.nombre ASC$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LISTAR_PRODUCTO` ()   BEGIN
 
@@ -163,7 +160,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_OBTENER_PEDIDOS_USUARIOS` (IN `p
         JOIN 
             productos pr ON p.id_producto = pr.id_producto  
         WHERE 
-            u.id_usuario = p_usuario AND u.rol = p_rol;  
+            u.id_usuario = p_usuario AND u.rol = p_rol
+        ORDER BY 
+            p.fecha_pedido ASC;  -- Ordena por fecha de pedido, más antiguos primero
 
     -- Si el usuario es Proveedor
     ELSEIF p_rol = 'Proveedor' THEN
@@ -181,7 +180,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_OBTENER_PEDIDOS_USUARIOS` (IN `p
         JOIN 
             usuarios u ON p.id_usuario = u.id_usuario
         JOIN 
-            productos pr ON p.id_producto = pr.id_producto;  
+            productos pr ON p.id_producto = pr.id_producto
+        ORDER BY 
+            p.fecha_pedido ASC;  -- Ordena por fecha de pedido, más antiguos primero
 
     ELSE
         SIGNAL SQLSTATE '45000'
@@ -213,6 +214,71 @@ CREATE TABLE `pedidos` (
   `unidad_de_medida` varchar(50) DEFAULT NULL,
   `caracteristicas` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pedidos`
+--
+
+INSERT INTO `pedidos` (`id_pedido`, `id_usuario`, `responsable`, `id_producto`, `fecha_pedido`, `cantidad`, `unidad_de_medida`, `caracteristicas`) VALUES
+(1, 4, 'Jhoan Monsalve', 4, '2024-12-20 13:35:10', 9, 'GR', 'No aplica'),
+(2, 4, 'Jhoan Monsalve', 3, '2024-12-20 13:35:30', 9, 'GR', 'No aplica'),
+(3, 3, 'Jhoan Monsalve', 5, '2024-12-20 13:36:15', 9, 'GR', 'No aplica'),
+(4, 3, 'Jhoan Gallego', 66, '2024-12-20 13:36:26', 5, 'UND', 'No aplica'),
+(5, 3, 'Jhoan Gallego', 64, '2024-12-20 13:36:35', 5, 'GR', 'No aplica'),
+(6, 3, 'Jhoan Gallego', 59, '2024-12-20 13:36:43', 3, 'UND', 'No aplica'),
+(7, 3, 'Jhoan Gallego', 61, '2024-12-20 13:36:50', 6, 'GR', 'No aplica'),
+(8, 3, 'Jhoan Gallego', 48, '2024-12-20 13:37:03', 8, 'GR', 'No aplica'),
+(9, 3, 'Jhoan Gallego', 54, '2024-12-20 13:37:11', 9, 'UND', 'No aplica'),
+(10, 11, 'Prueba', 6, '2024-12-20 13:38:29', 8, 'UND', 'Maduro'),
+(11, 11, 'Prueba', 1, '2024-12-20 13:38:41', 3, 'UND', 'No aplica'),
+(12, 11, 'Prueba', 7, '2024-12-20 13:38:48', 1, 'GR', 'Pinton'),
+(13, 11, 'Prueba', 18, '2024-12-20 13:38:57', 7, 'UND', 'Maduro'),
+(14, 11, 'Prueba', 24, '2024-12-20 13:39:06', 8, 'UND', 'No aplica'),
+(15, 11, 'Prueba', 26, '2024-12-20 13:39:14', 8, 'UND', 'No aplica'),
+(16, 11, 'Prueba', 32, '2024-12-20 13:39:21', 6, 'UND', 'No aplica'),
+(17, 11, 'Prueba', 35, '2024-12-20 13:39:30', 7, 'UND', 'No aplica'),
+(18, 11, 'Prueba', 43, '2024-12-20 13:39:38', 5, 'UND', 'No aplica'),
+(19, 11, 'Prueba', 56, '2024-12-20 13:39:45', 2, 'UND', 'No aplica'),
+(20, 6, 'Prueba', 5, '2024-12-20 13:46:42', 7, 'GR', 'Maduro'),
+(21, 6, 'Prueba', 6, '2024-12-20 13:47:50', 2, 'UND', 'Pinton'),
+(22, 6, 'Prueba', 1, '2024-12-20 13:47:59', 2, 'UND', 'No aplica'),
+(23, 6, 'Prueba', 7, '2024-12-20 13:48:07', 1, 'GR', 'No aplica'),
+(24, 6, 'Prueba', 36, '2024-12-20 13:48:31', 1, 'GR', 'No aplica'),
+(25, 6, 'Prueba', 6, '2024-12-20 14:10:49', 8, 'UND', 'Maduro'),
+(26, 6, 'Prueba', 19, '2024-12-20 14:10:57', 7, 'GR', 'No aplica'),
+(27, 6, 'Prueba', 15, '2024-12-20 14:11:07', 6, 'UND', 'No aplica'),
+(28, 6, 'Prueba', 21, '2024-12-20 14:11:16', 1, 'UND', 'No aplica'),
+(29, 12, 'Diciembre 2.0', 1, '2024-12-20 14:17:56', 2, 'UND', 'Pinton'),
+(30, 12, 'Prueba', 10, '2024-12-20 14:18:06', 1, 'GR', 'No aplica'),
+(31, 12, 'Prueba', 14, '2024-12-20 14:18:12', 1, 'UND', 'No aplica'),
+(32, 12, 'Prueba', 18, '2024-12-20 14:18:19', 1, 'UND', 'No aplica'),
+(33, 12, 'Jhoan', 64, '2024-12-20 14:18:26', 3, 'GR', 'No aplica'),
+(34, 12, 'Prueba', 66, '2024-12-20 14:18:37', 7, 'UND', 'No aplica'),
+(35, 12, 'Jhoan', 1, '2024-12-20 14:18:47', 5, 'UND', 'No aplica'),
+(36, 12, 'Prueba', 5, '2024-12-20 14:18:58', 1, 'GR', 'No aplica'),
+(37, 12, 'Prueba', 2, '2024-12-20 14:19:17', 1, 'GR', 'No aplica'),
+(38, 12, 'Prueba', 6, '2024-12-20 14:19:55', 2, 'UND', 'No aplica'),
+(39, 12, 'Jhoan Monsalve', 5, '2024-12-20 14:25:14', 1, 'GR', 'Maduro'),
+(40, 5, 'Zona 2', 14, '2024-12-20 14:29:10', 1, 'UND', 'No aplica'),
+(41, 5, 'Zona 2', 33, '2024-12-20 14:29:29', 8, 'UND', 'Maduro'),
+(42, 5, 'Zona 2', 64, '2024-12-20 14:29:38', 9, 'GR', 'No aplica'),
+(43, 5, 'Zona 2', 66, '2024-12-20 14:29:44', 7, 'UND', 'No aplica'),
+(44, 5, 'Zona 2', 65, '2024-12-20 14:29:49', 1, 'UND', 'Maduro'),
+(45, 5, 'Zona 2', 62, '2024-12-20 14:29:56', 1, 'UND', 'No aplica'),
+(46, 5, 'Zona 2', 60, '2024-12-20 14:30:02', 8, 'UND', 'Maduro'),
+(47, 5, 'Zona 2', 61, '2024-12-20 14:30:44', 2, 'GR', 'Maduro'),
+(48, 5, 'Zona 2', 63, '2024-12-20 14:30:49', 1, 'GR', 'Maduro'),
+(49, 5, 'Zona 2', 4, '2024-12-20 14:31:08', 2, 'GR', 'Pinton'),
+(50, 5, 'Zona 2', 1, '2024-12-20 14:31:20', 2, 'UND', 'Maduro'),
+(51, 2, 'amsterdam', 9, '2024-12-20 14:42:23', 2, 'GR', 'Maduro'),
+(52, 2, 'amsterdam', 20, '2024-12-20 14:42:51', 2, 'UND', 'Pinton'),
+(53, 2, 'amsterdam', 7, '2024-12-20 14:43:06', 1, 'GR', 'No aplica'),
+(54, 2, 'amsterdam', 40, '2024-12-20 14:43:13', 1, 'UND', 'No aplica'),
+(55, 2, 'amsterdam', 55, '2024-12-20 14:43:19', 1, 'GR', 'Maduro'),
+(56, 2, 'amsterdam', 60, '2024-12-20 14:43:24', 1, 'UND', 'Maduro'),
+(57, 2, 'amsterdam', 61, '2024-12-20 14:43:30', 1, 'GR', 'No aplica'),
+(58, 2, 'amsterdam', 63, '2024-12-20 14:43:35', 2, 'GR', 'No aplica'),
+(59, 2, 'amsterdam', 64, '2024-12-20 14:43:40', 2, 'GR', 'Maduro');
 
 -- --------------------------------------------------------
 
@@ -310,7 +376,7 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id_usuario`, `usuario`, `nombre`, `contrasena`, `rol`) VALUES
 (1, 'JaiberJM', 'Jaiber', '$2b$04$4JstMM5QTNBJWvIXdhkYgOpg/tOtslDHb7gc1OGf61E13Gg5EHBEa', 'Proveedor'),
-(2, 'AmsterdamSM', 'Sushi Market Amsterdam', '$2b$04$dtoDhlYH0c.IRKLDBOXUyeGWg9XuPn1Pv4v6OrZLZvLS.CiXKPIre', 'Cliente'),
+(2, 'AmsterdamSM', 'Sushi Market Amsterdam', '$2b$04$8f.I89/zkdgDfs.aFtimNesXkeNAYD/FzcfBmaeVhkvKmtJ/0/YhC', 'Cliente'),
 (3, 'TesoroSM', 'Sushi Market Tesoro', '$2b$04$EOP2QLQRBPuJbfpGyHEv2euXRcl7Lj.PhlYBqaMzYm8SjduK2S.cG', 'Cliente'),
 (4, 'SanlucasSM', 'Sushi Market San Lucas', '$2b$04$KGIHJgKl2zACXoZ7Guf9N.C9Do73L/Dq2kXEBrfDuJLxqLFwwDJC2', 'Cliente'),
 (5, 'Zona2SM', 'Sushi Market Zona 2', '$2b$04$obIdkGnaf2jjxuUVwGG2pey5Z19BiKNu0EeQmADNPuVJlxP7vf3/2', 'Cliente'),
@@ -354,7 +420,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
