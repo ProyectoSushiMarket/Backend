@@ -4,10 +4,13 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/index.js --exec babel-node"
+    "dev": "nodemon src/index.js --exec babel-node",
+    "build": "babel src --out-dir dist && copyfiles -u 1 src/**/* dist",
+    "start": "node ./dist/index.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "copyfiles": "^2.4.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
@@ -28,6 +31,7 @@
     "@babel/cli": "^7.25.9",
     "@babel/core": "^7.26.0",
     "@babel/node": "^7.26.0",
+    "@babel/plugin-transform-runtime": "^7.25.9",
     "@babel/preset-env": "^7.26.0",
     "nodemon": "^3.1.7"
   }
