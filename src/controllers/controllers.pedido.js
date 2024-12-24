@@ -116,9 +116,13 @@ const obtenerPedidosPorUsuario = async (req, res) => {
             query = 'CALL SP_OBTENER_PEDIDOS_USUARIOS(?, ?)';
             params = ['Proveedor', id_usuario];
         }
+        else if (rol === 'Administrador') {
+            query = 'CALL SP_OBTENER_PEDIDOS_USUARIOS(?, ?)';
+            params = ['Administrador', id_usuario];
+        }
         
         else {
-            return res.status(400).json({ message: 'Rol no válido. Use Cliente o Proveedor.' });
+            return res.status(400).json({ message: 'Rol no válido. Use Cliente, Proveedor o Administrador.' });
         }
 
         
