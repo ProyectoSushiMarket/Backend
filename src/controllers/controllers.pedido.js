@@ -72,8 +72,6 @@ const crearpedido = async (req, res) => {
     }
 };
 
-
-
 const eliminarpedido = async (req, res) => {
 
     const {id_pedido} = req.params;
@@ -85,6 +83,16 @@ const eliminarpedido = async (req, res) => {
         res.json({"Error": "El pedido no se pudo eliminar"})
     }
 
+}
+
+const eliminartodoslospedidos = async (req, res) => {
+
+    try {
+        const respuesta = await basededatos.query(`CALL SP_ELIMINAR_TODOS_LOS_PEDIDOS()`)
+        res.json({"respuesta": "Todos los pedidos se eliminaron"})
+    } catch (error) {
+        res.json({"respuesta": "No se pudo eliminar todos los pedidos"})
+    }
 }
 
 const obtenerPedidosPorUsuario = async (req, res) => {
@@ -142,5 +150,5 @@ const obtenerPedidosPorUsuario = async (req, res) => {
 
 
 export {
-    listarpedido, crearpedido, eliminarpedido, obtenerPedidosPorUsuario
+    listarpedido, crearpedido, eliminarpedido, eliminartodoslospedidos, obtenerPedidosPorUsuario
 }
