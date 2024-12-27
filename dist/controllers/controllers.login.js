@@ -43,7 +43,7 @@ const loginusuario = async (req, res) => {
         });
 
         
-        if (rol[0][0][0].rol == "Proveedor") {
+        if (rol[0][0][0].rol == "Proveedor" || rol[0][0][0].rol == "Administrador") {
             Acceso(req, res, 200, { token, "rol": "/proveedor" });
         } else if (rol[0][0][0].rol === "Cliente") {
             Acceso(req, res, 200, { token, "rol": "/cliente" });

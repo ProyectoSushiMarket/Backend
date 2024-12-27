@@ -30,13 +30,13 @@ const listarusuario = async (req, res) => {
 }
 const crearusuario = async (req, res) => {
 
-    const {nombre, usuario, rol } = req.body;
+    const {nombre, direccion, usuario, rol } = req.body;
     const contrasenasincifrar = req.body.contrasena;
     
     try {
         const hash = await bcrypt.hash(contrasenasincifrar, 2)
         const contrasena = hash;
-        const respuesta = await basededatos.query(`CALL SP_CREAR_USUARIO (?,?,?,?)`, [nombre, usuario, contrasena, rol]);
+        const respuesta = await basededatos.query(`CALL SP_CREAR_USUARIO (?,?,?,?,?)`, [nombre, direccion, usuario, contrasena, rol]);
         res.json({"respuesta":"El usuario ha sido creado"})
     } catch (error) {
         console.log(error);
@@ -46,12 +46,12 @@ const crearusuario = async (req, res) => {
 const modificarusuario = async (req, res) => {
 
     const {id} = req.params;
-    const {nombre, usuario, rol} = req.body;
+    const {nombre, direccion, usuario, rol} = req.body;
     const contrasenasincifrar = req.body.contrasena;
     const contrasena = await bcrypt.hash(contrasenasincifrar, 2);
 
     try {
-        const respuesta = await basededatos.query(`CALL SP_MODIFICAR_USUARIO (?,?,?,?,?)`,[id,nombre, usuario, contrasena, rol]);
+        const respuesta = await basededatos.query(`CALL SP_MODIFICAR_USUARIO (?,?,?,?,?,?)`,[id,nombre, direccion, usuario, contrasena, rol]);
 
         const resultado = respuesta[0];
 
