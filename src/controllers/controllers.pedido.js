@@ -19,7 +19,6 @@ const crearpedido = async (req, res) => {
         
         const errores = [];
         
-        
         for (const pedido of pedidos) {
             const { id_usuario, responsable, nombre_producto, fecha_pedido, cantidad, unidad_de_medida, caracteristicas } = pedido;
 
