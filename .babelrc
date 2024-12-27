@@ -1,15 +1,14 @@
 {
     "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": "node >= 12",  // Define la versión de Node.js que estás usando
-          "modules": false  // Esto le dice a Babel que no convierta los módulos a CommonJS
-        }
-      ]
+      ["@babel/preset-env", {
+        "targets": {
+          "node": "20"
+        },
+        "modules": false
+      }]
     ],
     "plugins": [
-      "@babel/transform-runtime"
+      "@babel/plugin-transform-runtime"
     ]
   }
   
